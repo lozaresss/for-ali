@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            position: relative;
+            text-shadow: 2px 2px 4px black;
+            cursor: url('https://cdn.custom-cursor.com/db/cursor/32/cat_paw_cursor.png'), auto;
+        }
+        h1 {
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+            margin-top: 20px;
+        }
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            width: auto;
+            position: relative;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s;
+            opacity: 0;
+            font-weight: bold;
+        }
+        #yes {
+            background-color: #ffcc00;
+            color: black;
+            animation: fadeInUp 2s 1.5s ease-in-out forwards;
+        }
+        #no {
+            background-color: #dc3545;
+            color: white;
+            animation: fadeInUp 2s 2s ease-in-out forwards;
+            position: relative;
+        }
+        #message-container {
+            display: none;
+            width: 80%;
+            max-width: 500px;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            margin-top: 20px;
+            overflow-y: auto;
+            text-align: left;
+        }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: pink;
+            animation: float 4s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-100px) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(-200px) scale(1); opacity: 0; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 600px) {
+            button {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+            .btn-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            #message-container {
+                width: 90%;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="question">Do you want to be my Valentine? ❤️</h1>
+    
+    <div class="btn-container">
+        <button id="yes">Yes 🐱</button>
+        <button id="no">No 😿</button>
+    </div>
+
+    <div id="message-container">
+        <p id="message">hi aliii, i'm glad you wanted to be my valentine! (but did you click no though? 🤔) i know you only see me as a friend right now, and i'm sorry if i'm trespassing the friendzone, but i just really wanted to ask if i could spend this special day with you. we haven't been staying that strong lately but i hope we can change that sooner or later, i miss talking to you normally, like actually having conversations and talking about each others hobbies or each other's day. i know it's hard for you right now since you're busy, but i want you to know that i'll wait, because i know it'll be worth it when we're gonna start talking normally again, because nothing will make me happier, than talking to you, and loving you. okay but seriously let me know please if you actually want to be my valentine because i literally didn't add an option for no here, or rather i didn't let you say no  ^^</p>
+    </div>
+
+    <audio id="bgMusic" loop autoplay>
+        <source src="https://dl.dropboxusercontent.com/scl/fi/uluupzqy6q2abhj18t17s/Clairo-Get-With-U.mp3?rlkey=v15db2tj3rmu2i8ie8ce91jid&st=05torxs5" type="audio/mp3">
+    </audio>
+
+    <audio id="yesSound" src="https://www.myinstants.com/media/sounds/cute-meow.mp3"></audio>
+    <audio id="noSound" src="https://www.myinstants.com/media/sounds/windows-error.mp3"></audio>
+
+    <script>
+        document.getElementById("yes").onclick = function() {
+            document.getElementById("message-container").style.display = "block";
+            document.getElementById("yesSound").play();
+            createHearts();
+            startFireworks();
+            document.getElementById("no").remove(); 
+        };
+
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = "100vh";
+                heart.style.animationDuration = `${2 + Math.random() * 3}s`;
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }
+        }
+
+        function moveNoButton() {
+            let btn = document.getElementById("no");
+            let maxX = window.innerWidth - btn.offsetWidth - 50;
+            let maxY = window.innerHeight - btn.offsetHeight - 50;
+            
+            let randomX = Math.max(50, Math.random() * maxX);
+            let randomY = Math.max(50, Math.random() * maxY);
+
+            btn.style.position = "fixed";
+            btn.style.left = `${randomX}px`; 
+            btn.style.top = `${randomY}px`; 
+            btn.style.transition = "left 0.3s ease-in-out, top 0.3s ease-in-out";
+
+            document.getElementById("noSound").play();
+        }
+
+        document.getElementById("no").onmouseover = moveNoButton;
+        document.getElementById("no").onclick = moveNoButton;
+
+        document.addEventListener('click', () => {
+            document.getElementById("bgMusic").play();
+        });
+
+        function startFireworks() {
+            const duration = 700; // 0.7 seconds
+            const end = Date.now() + duration;
+            
+            (function frame() {
+                if (Date.now() < end) {
+                    const firework = document.createElement("div");
+                    firework.innerHTML = "🎆";
+                    firework.style.position = "fixed";
+                    firework.style.left = `${Math.random() * 100}vw`;
+                    firework.style.top = `${Math.random() * 100}vh`;
+                    firework.style.fontSize = "40px";
+                    firework.style.opacity = "1";
+                    firework.style.transition = "opacity 0.5s ease-out";
+                    document.body.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        firework.style.opacity = "0";
+                        setTimeout(() => firework.remove(), 500);
+                    }, 200);
+
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+    </script>
+
+</body>
+</html>
